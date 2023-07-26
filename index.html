@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <h1> SIT725-20230T1-PRAC2</h1>
+    <br />
+  <h2>Simple Calculator</h2>
+  <form id="calculatorForm">
+    <input type="text" name="num1" placeholder="Enter number 1" required>
+    <input type="text" name="num2" placeholder="Enter number 2" required>
+    <select name="operator">
+      <option value="+">Add</option>
+      <option value="-">Subtract</option>
+      <option value="*">Multiply</option>
+      <option value="/">Divide</option>
+    </select>
+    <button type="submit">Calculate</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('calculatorForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const response = await fetch('/calculate', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        document.getElementById('result').innerText = `Result: ${data.result}`;
+      } else {
+        document.getElementById('result').innerText = 'Error occurred';
+      }
+    });
+  </script>
+</body>
+</html>
